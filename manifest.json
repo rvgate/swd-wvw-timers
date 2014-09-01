@@ -2,7 +2,7 @@
 	"manifest_version":1,
 	"type":"WebApp",
 	"meta":{
-		"name":"Demo App",
+		"name":"SWD WvW Timers",
 		"version":"1.0.0",
 		"minimum-overwolf-version":"0.77.10",
 		"author":"Developer Name",
