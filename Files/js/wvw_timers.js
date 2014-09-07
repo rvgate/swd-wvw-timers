@@ -33,7 +33,10 @@ var updatedMatchDetails = new Event('updatedMatchDetails');
 var updatedNotifications = new Event('updatedNotifications');
 var updatedRefreshRate = new Event('updatedRefreshRate');
 var updatedSound = new Event('updatedSound');
+var updatedVolume = new Event('updatedVolume');
 var tickEvent = new Event('tickEvent');
+var settingsSaved = new Event('settingsSaved');
+var settingsLoaded = new Event('settingsLoaded');
 
 var settings = {
     'servers': {},
@@ -41,7 +44,7 @@ var settings = {
     'language': 'en',
     'refresh_rate': 5,
     'sound': true,
-    'volume': 0.2,
+    'volume': 100,
     'position': {
         'location': 'bl',
         'offset': [10, 30]
@@ -72,26 +75,37 @@ var score_mapping = {
 function setLanguage(newLanguage) {
     settings.language = newLanguage;
     document.dispatchEvent(changeLanguage);
+    saveSettings();
 }
 
 function setServer(newServer) {
     settings.server = parseInt(newServer);
     document.dispatchEvent(serverSelected);
+    saveSettings();
 }
 
 function setNotifications(border, value) {
     settings.notifications[border] = value;
     document.dispatchEvent(updatedNotifications);
+    saveSettings();
 }
 
 function setRefreshRate(seconds) {
     settings.refresh_rate = seconds;
     document.dispatchEvent(updatedRefreshRate);
+    saveSettings();
 }
 
 function setSound(value) {
     settings.sound = value;
     document.dispatchEvent(updatedSound);
+    saveSettings();
+}
+
+function setVolume(value) {
+    settings.volume = value;
+    document.dispatchEvent(updatedVolume);
+    saveSettings();
 }
 
 function fetchServers() {
@@ -137,12 +151,31 @@ function populateServers() {
     }
 }
 
-function previewSound() {
+function playSound() {
     if(settings.sound) {
         ion.sound.play('bell_ring', {
-            'volume': settings.volume
+            'volume': settings.volume/100
         });
     }
+}
+
+function populateVolume() {
+    console.log(settings.volume);
+    var slider = $('#volume').slider({
+        'min': 1,
+        'max': 100,
+        'orientation': 'horizontal',
+        'value': settings.volume,
+        'tooltip': 'show'
+    });
+
+    slider.on('slide', function(data){
+        setVolume(data.value);
+    });
+
+    slider.on('slideStop', function(){
+       playSound();
+    });
 }
 
 function populateBorderNames() {
@@ -208,12 +241,14 @@ function populateSound() {
 }
 
 function updateMatchDetails() {
-    $.getJSON('https://api.guildwars2.com/v1/wvw/match_details.json?match_id=' + match_details.id, function(data){
-        match_details.scores = data.scores;
-        match_details.maps = data.maps;
-        match_details.date = new Date();
-        document.dispatchEvent(updatedMatchDetails);
-    });
+    if(match_details.id != -1) {
+        $.getJSON('https://api.guildwars2.com/v1/wvw/match_details.json?match_id=' + match_details.id, function(data){
+            match_details.scores = data.scores;
+            match_details.maps = data.maps;
+            match_details.date = new Date();
+            document.dispatchEvent(updatedMatchDetails);
+        });
+    }
 }
 
 function setMatch() {
@@ -244,13 +279,25 @@ function restartTicker() {
     tick();
 }
 
+function loadSettings() {
+    settings = JSON.parse(localStorage.getItem("settings"));
+    document.dispatchEvent(settingsLoaded);
+}
+
+function saveSettings() {
+    localStorage.setItem("settings", JSON.stringify(settings));
+    document.dispatchEvent(settingsSaved);
+}
+
 // bind events
-document.addEventListener('start', tick);
+document.addEventListener('start', loadSettings);
 document.addEventListener('start', fetchServers);
 document.addEventListener('start', populateLanguages);
 document.addEventListener('start', populateNotifications);
 document.addEventListener('start', populateRefreshRate);
 document.addEventListener('start', populateSound);
+document.addEventListener('start', populateVolume);
+document.addEventListener('start', tick);
 document.addEventListener('serversUpdated', populateServers);
 document.addEventListener('changeLanguage', populateServers);
 document.addEventListener('changeLanguage', populateLanguages);
@@ -259,7 +306,7 @@ document.addEventListener('matchSelected', updateMatchDetails);
 document.addEventListener('matchSelected', populateBorderNames);
 document.addEventListener('updatedMatchDetails', populateScoreboard);
 document.addEventListener('updatedNotifications', populateNotifications);
-document.addEventListener('updatedSound', previewSound);
+document.addEventListener('updatedSound', playSound);
 document.addEventListener('updatedRefreshRate', restartTicker);
 document.addEventListener('tickEvent', updateMatchDetails);
 
@@ -273,19 +320,5 @@ $('input[name="notifications_blue"]').change(function(){setNotifications("blue",
 $('input[name="notifications_green"]').change(function(){setNotifications("green", this.checked)});
 $('input[name="notifications_center"]').change(function(){setNotifications("center", this.checked)});
 $('input[name="sound"]').change(function(){setSound(this.checked)});
-
-// log events
-function logEvent(event) { console.log('event: ' + event.type);}
-document.addEventListener('start', function(event){logEvent(event)});
-document.addEventListener('serversIpdated', function(event){logEvent(event)});
-document.addEventListener('serverSelected', function(event){logEvent(event)});
-document.addEventListener('matchSelected', function(event){logEvent(event)});
-document.addEventListener('changeLanguage', function(event){logEvent(event)});
-document.addEventListener('updatedMatchDetails', function(event){logEvent(event)});
-document.addEventListener('updatedNotifications', function(event){logEvent(event)});
-document.addEventListener('updatedRefreshRate', function(event){logEvent(event)});
-document.addEventListener('updatedSound', function(event){logEvent(event)});
-document.addEventListener('tickEvent', function(event){logEvent(event)});
-
 
 document.dispatchEvent(start);

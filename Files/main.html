@@ -4,8 +4,10 @@
 		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <script src="js/jquery-2.1.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-slider.js"></script>
         <script src="js/ion.sound.min.js"></script>
         <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/slider.css" />
 		<title>SWD WvW Timers</title>
 		<script>
 
@@ -20,6 +22,7 @@
 			};
 
             openSubWindow();
+
 		</script>
 	</head>
 
@@ -142,6 +145,16 @@
                                     <input name="sound" id="sound" type="checkbox" checked="checked"/>
                                 </div>
                             </div>
+
+                            <!-- Volume -->
+                            <div class="form-group">
+                                <label for="sound" class="col-xs-6 control-label">
+                                    <p>Volume</p>
+                                </label>
+                                <div class="col-xs-6">
+                                    <input id="volume" />
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="well">
@@ -161,6 +174,9 @@
                             </div>
                         </fieldset>
                     </div>
+
+
+
                 </form>
             </div>
         </div>
