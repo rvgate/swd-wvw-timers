@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/ion.sound.min.js"></script>
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+		<title>SWD WvW Timers</title>
+		<script>
+
+			function openSubWindow(){
+				overwolf.windows.obtainDeclaredWindow("SubWindow", function(result){
+					if (result.status == "success"){
+						overwolf.windows.restore(result.window.id, function(result){
+								console.log(result);
+						});
+					}
+				});
+			};
+
+		</script>
+	</head>
+
+	<body>
+        <div class="container-fluid">
+            <div class="row">
+                <form class="form-horizontal">
+                    <div class="well">
+                        <fieldset>
+                            <legend>Match details</legend>
+
+                            <!-- Server selection -->
+                            <div class="form-group">
+                                <label for="servers" class="col-xs-2 control-label">Server</label>
+                                <div class="col-xs-10">
+                                    <select class="form-control" id="servers"></select>
+                                </div>
+                            </div>
+
+                            <!-- Match details -->
+                            <div class="row server_blue">
+                                <div class="col-xs-4 name">
+                                    Blue server
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="progress">
+                                        <div class="progress-bar blue"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 score">
+                                    0
+                                </div>
+                            </div>
+                            <div class="row server_red">
+                                <div class="col-xs-4 name">
+                                    Red server
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-danger red"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 score">
+                                    0
+                                </div>
+                            </div>
+                            <div class="row server_green">
+                                <div class="col-xs-4 name">
+                                    Green server
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success green"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 score">
+                                    0
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-offset-4 col-xs-6">
+                                    <p><sup>Updated at <span id="update_time">00:00:00</span></sup></p>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="well">
+                        <fieldset>
+                            <legend>Border notifications</legend>
+                            <label for="notifications_blue" class="col-xs-10 control-label server_blue ">
+                                <p class="text-primary">Blue border (<span class="name">Blue server</span>)</p>
+                            </label>
+                            <div class="col-xs-1 border_blue bg">
+                                <input name="notifications_blue" id="notifications_blue" type="checkbox"  checked="checked"/>
+                            </div>
+                            <label for="notifications_red" class="col-xs-10 control-label server_red">
+                                <p class="text-danger">Red border (<span class="name">Red server</span>)</p>
+                            </label>
+                            <div class="col-xs-1 border_red bg">
+                                <input name="notifications_red" id="notifications_red" type="checkbox" checked="checked" />
+                            </div>
+                            <label for="notifications_green" class="col-xs-10 control-label server_green">
+                                <p class="text-success">Green border (<span class="name">Green server</span>)</p>
+                            </label>
+                            <div class="col-xs-1 border_green bg">
+                                <input name="notifications_green" id="notifications_green" type="checkbox"  checked="checked"/>
+                            </div>
+                            <label for="notifications_center" class="col-xs-10 control-label">
+                                <p class="text-info">Eternal battlegrounds</p>
+                            </label>
+                            <div class="col-xs-1 border_center bg">
+                                <input name="notifications_center" id="notifications_center" type="checkbox"  checked="checked"/>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="well">
+                        <fieldset>
+                            <legend>Notification settings</legend>
+                            <!-- Refresh rate -->
+                            <div class="form-group">
+                                <label for="refresh_rate" class="col-xs-8 control-label">Refresh rate</label>
+                                <div class="col-xs-4">
+                                    <select class="form-control" id="refresh_rate">
+                                        <option value="1">1 second</option>
+                                        <option value="2">2 seconds</option>
+                                        <option value="5">5 seconds</option>
+                                        <option value="10">10 seconds</option>
+                                        <option value="20">20 seconds</option>
+                                        <option value="30">30 seconds</option>
+                                        <option value="60">1 minute</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Sound -->
+                            <div class="form-group">
+                                <label for="sound" class="col-xs-8 control-label">
+                                    <p>Play sound on capture</p>
+                                </label>
+                                <div class="col-xs-4">
+                                    <input name="sound" id="sound" type="checkbox" checked="checked"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="well">
+                        <fieldset>
+                            <legend>Localization</legend>
+                            <!--Change language-->
+                            <div class="form-group">
+                                <label for="language" class="col-xs-7 control-label">Language</label>
+                                <div class="col-xs-5">
+                                    <select class="form-control" id="language">
+                                        <option value="en">English</option>
+                                        <option value="de">German</option>
+                                        <option value="es">Spanish</option>
+                                        <option value="fr">French</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <a href="javascript:location.reload(true)">Refresh this page</a>
+	</body>
+    <script src="js/wvw_timers.js"></script>
+</html>
+
