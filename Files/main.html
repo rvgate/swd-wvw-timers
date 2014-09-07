@@ -19,6 +19,7 @@
 				});
 			};
 
+            openSubWindow();
 		</script>
 	</head>
 
@@ -32,8 +33,7 @@
 
                             <!-- Server selection -->
                             <div class="form-group">
-                                <label for="servers" class="col-xs-2 control-label">Server</label>
-                                <div class="col-xs-10">
+                                <div class="col-xs-offset-4 col-xs-8">
                                     <select class="form-control" id="servers"></select>
                                 </div>
                             </div>
@@ -89,19 +89,19 @@
                         <fieldset>
                             <legend>Border notifications</legend>
                             <label for="notifications_blue" class="col-xs-10 control-label server_blue ">
-                                <p class="text-primary">Blue border (<span class="name">Blue server</span>)</p>
+                                <p class="text-primary">Blue border - <span class="name">Blue server</span></p>
                             </label>
                             <div class="col-xs-1 border_blue bg">
                                 <input name="notifications_blue" id="notifications_blue" type="checkbox"  checked="checked"/>
                             </div>
                             <label for="notifications_red" class="col-xs-10 control-label server_red">
-                                <p class="text-danger">Red border (<span class="name">Red server</span>)</p>
+                                <p class="text-danger">Red border - <span class="name">Red server</span></p>
                             </label>
                             <div class="col-xs-1 border_red bg">
                                 <input name="notifications_red" id="notifications_red" type="checkbox" checked="checked" />
                             </div>
                             <label for="notifications_green" class="col-xs-10 control-label server_green">
-                                <p class="text-success">Green border (<span class="name">Green server</span>)</p>
+                                <p class="text-success">Green border - <span class="name">Green server</span></p>
                             </label>
                             <div class="col-xs-1 border_green bg">
                                 <input name="notifications_green" id="notifications_green" type="checkbox"  checked="checked"/>
@@ -119,8 +119,8 @@
                             <legend>Notification settings</legend>
                             <!-- Refresh rate -->
                             <div class="form-group">
-                                <label for="refresh_rate" class="col-xs-8 control-label">Refresh rate</label>
-                                <div class="col-xs-4">
+                                <label for="refresh_rate" class="col-xs-6 control-label">Refresh rate</label>
+                                <div class="col-xs-6">
                                     <select class="form-control" id="refresh_rate">
                                         <option value="1">1 second</option>
                                         <option value="2">2 seconds</option>
@@ -135,10 +135,10 @@
 
                             <!-- Sound -->
                             <div class="form-group">
-                                <label for="sound" class="col-xs-8 control-label">
+                                <label for="sound" class="col-xs-6 control-label">
                                     <p>Play sound on capture</p>
                                 </label>
-                                <div class="col-xs-4">
+                                <div class="col-xs-6">
                                     <input name="sound" id="sound" type="checkbox" checked="checked"/>
                                 </div>
                             </div>
@@ -149,8 +149,8 @@
                             <legend>Localization</legend>
                             <!--Change language-->
                             <div class="form-group">
-                                <label for="language" class="col-xs-7 control-label">Language</label>
-                                <div class="col-xs-5">
+                                <label for="language" class="col-xs-6 control-label">Language</label>
+                                <div class="col-xs-6">
                                     <select class="form-control" id="language">
                                         <option value="en">English</option>
                                         <option value="de">German</option>
