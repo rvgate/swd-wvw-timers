@@ -280,7 +280,10 @@ function restartTicker() {
 }
 
 function loadSettings() {
-    settings = JSON.parse(localStorage.getItem("settings"));
+    loadedSettings = JSON.parse(localStorage.getItem("settings"));
+    if(loadedSettings != null) {
+        settings = loadedSettings;
+    }
     document.dispatchEvent(settingsLoaded);
 }
 
