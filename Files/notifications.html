@@ -1,26 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/ion.sound.min.js"></script>
         <link rel="stylesheet" href="https://d1h9a8s8eodvjz.cloudfront.net/fonts/menomonia/08-02-12/menomonia.css" />
-		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-		<title>Sub window</title>
-		<script>
-			function dragMove(){
-				overwolf.windows.getCurrentWindow(function(result){
-					if (result.status=="success"){
-						overwolf.windows.dragMove(result.window.id);
-					}
-				});
-			};
-
-			function closeWindow(){
-				overwolf.windows.getCurrentWindow(function(result){
-					if (result.status=="success"){
-						overwolf.windows.close(result.window.id);
-					}
-				});
-			};
-		</script>
+        <title>Notifications</title>
 	</head>
 
 	<body>
@@ -30,17 +15,8 @@
             <img src="img/objective_sprites.png" />
             <img src="img/timer_bars.png" />
         </div>
-
-		<div id="content" onmousedown="dragMove();">
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-			<button id="close" onclick="closeWindow();">Close</button>
-		</div>
+        <div id="test">aaa</div>
 	</body>
+    <a href="javascript:location.reload(true)">Refresh this page</a>
+    <script src="js/notifications.js"></script>
 </html>

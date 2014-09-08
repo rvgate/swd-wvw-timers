@@ -9,21 +9,6 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/slider.css" />
 		<title>SWD WvW Timers</title>
-		<script>
-
-			function openSubWindow(){
-				overwolf.windows.obtainDeclaredWindow("SubWindow", function(result){
-					if (result.status == "success"){
-						overwolf.windows.restore(result.window.id, function(result){
-								console.log(result);
-						});
-					}
-				});
-			};
-
-            openSubWindow();
-
-		</script>
 	</head>
 
 	<body>
@@ -159,6 +144,38 @@
                     </div>
                     <div class="well">
                         <fieldset>
+                            <legend>Positioning</legend>
+                            <!-- Location -->
+                            <div class="form-group row">
+                                <label for="location" class="col-xs-6 control-label">Location</label>
+                                <div class="col-xs-6">
+                                    <select class="form-control" id="location"></select>
+                                </div>
+                            </div>
+
+                            <!-- Offset X-Axis -->
+                            <div class="form-group row">
+                                <label for="offset_x" class="col-xs-4 control-label">
+                                    <p>Offset X-Axis</p>
+                                </label>
+                                <div class="col-xs-8">
+                                    <input id="offset_x" style="width: 120%"/>
+                                </div>
+                            </div>
+
+                            <!-- Offset X-Axis -->
+                            <div class="form-group row">
+                                <label for="offset_y" class="col-xs-4 control-label">
+                                    <p>Offset Y-Axis</p>
+                                </label>
+                                <div class="col-xs-8">
+                                    <input id="offset_y" style="width: 120%"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="well">
+                        <fieldset>
                             <legend>Localization</legend>
                             <!--Change language-->
                             <div class="form-group">
@@ -174,14 +191,11 @@
                             </div>
                         </fieldset>
                     </div>
-
-
-
                 </form>
             </div>
         </div>
         <a href="javascript:location.reload(true)">Refresh this page</a>
 	</body>
-    <script src="js/wvw_timers.js"></script>
+    <script src="js/main.js"></script>
 </html>
 

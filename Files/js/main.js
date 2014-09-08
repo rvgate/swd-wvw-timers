@@ -37,6 +37,7 @@ var updatedVolume = new Event('updatedVolume');
 var tickEvent = new Event('tickEvent');
 var settingsSaved = new Event('settingsSaved');
 var settingsLoaded = new Event('settingsLoaded');
+var updatedLocation = new Event('updatedLocation');
 
 var settings = {
     'servers': {},
@@ -47,7 +48,7 @@ var settings = {
     'volume': 100,
     'position': {
         'location': 'bl',
-        'offset': [10, 30]
+        'offset': [0, 0]
     },
     'notifications': {
         'red': true,
@@ -74,44 +75,62 @@ var score_mapping = {
 
 function setLanguage(newLanguage) {
     settings.language = newLanguage;
-    document.dispatchEvent(changeLanguage);
+    dispatchEvent(changeLanguage);
     saveSettings();
 }
 
 function setServer(newServer) {
     settings.server = parseInt(newServer);
-    document.dispatchEvent(serverSelected);
+    dispatchEvent(serverSelected);
     saveSettings();
 }
 
 function setNotifications(border, value) {
     settings.notifications[border] = value;
-    document.dispatchEvent(updatedNotifications);
+    dispatchEvent(updatedNotifications);
     saveSettings();
 }
 
 function setRefreshRate(seconds) {
     settings.refresh_rate = seconds;
-    document.dispatchEvent(updatedRefreshRate);
+    dispatchEvent(updatedRefreshRate);
     saveSettings();
 }
 
 function setSound(value) {
     settings.sound = value;
-    document.dispatchEvent(updatedSound);
+    dispatchEvent(updatedSound);
     saveSettings();
 }
 
 function setVolume(value) {
     settings.volume = value;
-    document.dispatchEvent(updatedVolume);
+    dispatchEvent(updatedVolume);
+    saveSettings();
+}
+
+function setLocation(value) {
+    settings.position.location = value;
+    dispatchEvent(updatedLocation);
+    saveSettings();
+}
+
+function setPositionOffsetX(value) {
+    settings.position.offset[0] = value;
+    dispatchEvent(updatedLocation);
+    saveSettings();
+}
+
+function setPositionOffsetY(value) {
+    settings.position.offset[1] = value;
+    dispatchEvent(updatedLocation);
     saveSettings();
 }
 
 function fetchServers() {
     $.ajax('js/world_names.json').done(function(json){
         settings.servers = JSON.parse(json);
-        document.dispatchEvent(serversUpdated);
+        dispatchEvent(serversUpdated);
     });
 }
 
@@ -145,7 +164,7 @@ function populateServers() {
         option.text(server_name[settings.language]);
         if(server_id == settings.server) {
             option.attr('selected', 'selected');
-            document.dispatchEvent(serverSelected);
+            dispatchEvent(serverSelected);
         }
         servers.append(option);
     }
@@ -160,7 +179,6 @@ function playSound() {
 }
 
 function populateVolume() {
-    console.log(settings.volume);
     var slider = $('#volume').slider({
         'min': 1,
         'max': 100,
@@ -176,6 +194,46 @@ function populateVolume() {
     slider.on('slideStop', function(){
        playSound();
     });
+}
+
+function populatePosition() {
+    var location_defaults = {
+        "tl": "Top left",
+        "tr": "Top right",
+        "bl": "Bottom left",
+        "br": "Bottom right"
+    };
+
+    var locations = $('#location');
+    for (var key in location_defaults) {
+        var option = $('<option/>');
+        option.val(key);
+        option.text(location_defaults[key]);
+        if(key == settings.position.location) {
+            option.attr('selected', 'selected');
+        }
+        locations.append(option);
+    }
+
+    var slider_x = $('#offset_x').slider({
+        'min': 0,
+        'max': 500,
+        'orientation': 'horizontal',
+        'value': settings.position.offset[0]
+    });
+    var slider_y = $('#offset_y').slider({
+        'min': 0,
+        'max': 500,
+        'orientation': 'horizontal',
+        'value': settings.position.offset[1]
+    });
+
+    slider_x.on('slide', function(data){
+        setPositionOffsetX(data.value);
+    });
+    slider_y.on('slide', function(data){
+        setPositionOffsetY(data.value);
+    })
 }
 
 function populateBorderNames() {
@@ -246,7 +304,8 @@ function updateMatchDetails() {
             match_details.scores = data.scores;
             match_details.maps = data.maps;
             match_details.date = new Date();
-            document.dispatchEvent(updatedMatchDetails);
+            dispatchEvent(updatedMatchDetails);
+            localStorage.setItem("match_details", JSON.stringify(match_details));
         });
     }
 }
@@ -262,7 +321,7 @@ function setMatch() {
                 match_details.red = red_id;
                 match_details.blue = blue_id;
                 match_details.green = green_id;
-                document.dispatchEvent(matchSelected);
+                dispatchEvent(matchSelected);
                 return true;
             }
         });
@@ -271,7 +330,7 @@ function setMatch() {
 
 function tick() {
     ticker = setTimeout(tick, settings.refresh_rate * 1000);
-    document.dispatchEvent(tickEvent);
+    dispatchEvent(tickEvent);
 }
 
 function restartTicker() {
@@ -284,12 +343,53 @@ function loadSettings() {
     if(loadedSettings != null) {
         settings = loadedSettings;
     }
-    document.dispatchEvent(settingsLoaded);
+    dispatchEvent(settingsLoaded);
 }
 
 function saveSettings() {
     localStorage.setItem("settings", JSON.stringify(settings));
-    document.dispatchEvent(settingsSaved);
+    dispatchEvent(settingsSaved);
+}
+
+function dispatchEvent(event) {
+    document.dispatchEvent(event);
+    localStorage.setItem('event', event.type);
+}
+
+function openNotificationsWindow(){
+    overwolf.windows.obtainDeclaredWindow("Notifications", function(result){
+        if (result.status == "success"){
+            overwolf.windows.restore(result.window.id);
+        }
+    });
+};
+
+function setNotificationWindowPosition() {
+    overwolf.windows.obtainDeclaredWindow("Notifications", function(declaredWindow){
+        overwolf.games.getRunningGameInfo(function(gameInfo){
+            var game_width = gameInfo.width;
+            var game_height = gameInfo.height;
+            var window_width = declaredWindow.window.width;
+            var window_height = declaredWindow.window.height;
+
+            var newX = settings.position.offset[0];
+            var newY = settings.position.offset[1];
+            if(settings.position.location == "tl") {
+                newX = settings.position.offset[0];
+                newY = settings.position.offset[1];
+            } else if(settings.position.location == "tr") {
+                newX = game_width - window_width - settings.position.offset[0];
+                newY = settings.position.offset[1];
+            } else if(settings.position.location == "bl") {
+                newX = settings.position.offset[0];
+                newY = game_height - window_height - settings.position.offset[1];
+            } else if(settings.position.location == "br") {
+                newX = game_width - window_width - settings.position.offset[0];
+                newY = game_height - window_height - settings.position.offset[1];
+            }
+            overwolf.windows.changePosition(declaredWindow.window.id, newX, newY);
+        });
+    });
 }
 
 // bind events
@@ -300,6 +400,9 @@ document.addEventListener('start', populateNotifications);
 document.addEventListener('start', populateRefreshRate);
 document.addEventListener('start', populateSound);
 document.addEventListener('start', populateVolume);
+document.addEventListener('start', populatePosition);
+document.addEventListener('start', openNotificationsWindow);
+
 document.addEventListener('start', tick);
 document.addEventListener('serversUpdated', populateServers);
 document.addEventListener('changeLanguage', populateServers);
@@ -312,11 +415,13 @@ document.addEventListener('updatedNotifications', populateNotifications);
 document.addEventListener('updatedSound', playSound);
 document.addEventListener('updatedRefreshRate', restartTicker);
 document.addEventListener('tickEvent', updateMatchDetails);
+document.addEventListener('updatedLocation', setNotificationWindowPosition);
 
 // bind user interaction
 $('#servers').on('change', function(){ setServer(this.value)});
 $('#language').on('change', function(){ setLanguage(this.value)});
 $('#refresh_rate').on('change', function(){ setRefreshRate(this.value)});
+$('#location').on('change', function(){ setLocation(this.value)});
 
 $('input[name="notifications_red"]').change(function(){setNotifications("red", this.checked)});
 $('input[name="notifications_blue"]').change(function(){setNotifications("blue", this.checked)});
@@ -324,4 +429,4 @@ $('input[name="notifications_green"]').change(function(){setNotifications("green
 $('input[name="notifications_center"]').change(function(){setNotifications("center", this.checked)});
 $('input[name="sound"]').change(function(){setSound(this.checked)});
 
-document.dispatchEvent(start);
+dispatchEvent(start);

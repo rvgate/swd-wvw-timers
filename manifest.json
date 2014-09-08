@@ -11,20 +11,20 @@
 		"description":"Demo App"
 	},
 	"data": {
-		"start_window":"MainWindow",
+		"start_window":"Main",
 		"windows":{
-			"MainWindow":{
+			"Main":{
                 "file":"Files/main.html",
                 "transparent":false,
                 "resizable":false,
                 "size":{"width":500, "height":600}
             },
-			"SubWindow":{
+			"Notifications":{
                 "file":"Files/notifications.html",
                 "transparent":true,
-                "resizable":false,
+                "resizable": false,
                 "size":{"width":400, "height":300},
-                "in_game_only":true,
+                "in_game_only": true,
                 "clickthrough": true
             }
 		}
