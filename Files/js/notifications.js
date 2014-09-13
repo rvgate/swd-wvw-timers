@@ -127,9 +127,7 @@ function objectiveFlipped(event) {
             'position': position
         });
 
-        if(objective.id in timers) {
-            clearTimeout(timers[objective.id]);
-        }
+        clearTimeout(timers[objective.id]);
         timers[objective.id] = setTimeout(function(){
             updateNotificationTimer(objective.id, 300)
         }, 1000);
@@ -154,7 +152,7 @@ function updateNotificationTimer(objectiveId, tick) {
     }
     // change bar
 
-    if(tick <= 300) {
+    if(tick >= 0) {
         setTimeout(function(){
             updateNotificationTimer(objectiveId, tick);
         }, 1000);
