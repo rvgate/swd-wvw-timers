@@ -75,32 +75,32 @@ var score_mapping = {
 
 function setLanguage(newLanguage) {
     settings.language = newLanguage;
-    dispatchEvent(changeLanguage);
     saveSettings();
+    dispatchEvent(changeLanguage);
 }
 
 function setServer(newServer) {
     settings.server = parseInt(newServer);
-    dispatchEvent(serverSelected);
     saveSettings();
+    dispatchEvent(serverSelected);
 }
 
 function setNotifications(border, value) {
     settings.notifications[border] = value;
-    dispatchEvent(updatedNotifications);
     saveSettings();
+    dispatchEvent(updatedNotifications);
 }
 
 function setRefreshRate(seconds) {
     settings.refresh_rate = seconds;
-    dispatchEvent(updatedRefreshRate);
     saveSettings();
+    dispatchEvent(updatedRefreshRate);
 }
 
 function setSound(value) {
     settings.sound = value;
-    dispatchEvent(updatedSound);
     saveSettings();
+    dispatchEvent(updatedSound);
 }
 
 function setVolume(value) {
@@ -111,20 +111,20 @@ function setVolume(value) {
 
 function setLocation(value) {
     settings.position.location = value;
-    dispatchEvent(updatedLocation);
     saveSettings();
+    dispatchEvent(updatedLocation);
 }
 
 function setPositionOffsetX(value) {
     settings.position.offset[0] = value;
-    dispatchEvent(updatedLocation);
     saveSettings();
+    dispatchEvent(updatedLocation);
 }
 
 function setPositionOffsetY(value) {
     settings.position.offset[1] = value;
-    dispatchEvent(updatedLocation);
     saveSettings();
+    dispatchEvent(updatedLocation);
 }
 
 function fetchServers() {
@@ -428,5 +428,7 @@ $('input[name="notifications_blue"]').change(function(){setNotifications("blue",
 $('input[name="notifications_green"]').change(function(){setNotifications("green", this.checked)});
 $('input[name="notifications_center"]').change(function(){setNotifications("center", this.checked)});
 $('input[name="sound"]').change(function(){setSound(this.checked)});
+
+overwolf.games.getRunningGameInfo (function(){ setNotificationWindowPosition(); });
 
 dispatchEvent(start);

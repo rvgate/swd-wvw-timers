@@ -1,1 +1,85 @@
-﻿
+﻿* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.notification {
+    padding: 5px;
+    clear: both;
+}
+
+.notification .icon {
+    margin-top: 2px;
+    width: 26px;
+    height: 26px;
+    background-image: url("../img/objectives.png");
+}
+
+.notification.left .container {float: left;}
+.notification.left .label * { float: left;}
+.notification.right .container {float: right;}
+.notification.right .label * { float: right;}
+
+.notification .container.info {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.notification .label {
+
+}
+
+.notification .label * {
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-size: 14px;
+    font-family: 'Menomonia';
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.notification .label .time {width: 30px;}
+.notification .label .guild {font-weight: bold;}
+
+.notification .timer {
+    clear: both;
+    width: 200px;
+    height: 8px;
+    padding: 2px;
+    background: url("../img/bar.png") 0px 0px;
+}
+
+.notification .timer .bar {
+    width: 200px;
+    height: 8px;
+}
+
+.notification.red-border .timer .background {background-color: rgba(219, 33, 38, 0.6);}
+.notification.blue-border .timer .background {background-color: rgba(50, 194, 219, 0.6);}
+.notification.green-border .timer .background {background-color: rgba(70, 195, 102, 0.6);}
+.notification.center-border .timer .background {background-color: rgba(177, 50, 219, 0.6);}
+.notification.red-border .timer .bar {background-color: rgb(219, 33, 38);}
+.notification.blue-border .timer .bar {background-color: rgb(50, 194, 219);}
+.notification.green-border .timer .bar {background-color: rgb(70, 195, 102);}
+.notification.center-border .timer .bar {background-color: rgb(177, 50, 219);}
+.notification.blue .icon{ background-position-y: 0px;}
+.notification.red .icon{ background-position-y: -26px;}
+.notification.green .icon{ background-position-y: -52px;}
+.notification.neutral .icon{ background-position-y: -78px;}
+.notification.camp .icon{ background-position-x: 0px;}
+.notification.tower .icon{ background-position-x: -26px;}
+.notification.keep .icon{ background-position-x: -52px;}
+.notification.castle .icon{ background-position-x: -78px;}
+
+.notification .timer .bar {
+    height: 8px;
+    position: relative;
+    width: 100%;
+}
+
+.notification .timer .ticks {
+    position: relative;
+    margin-top: -8px;
+    background: url("../img/bar.png") 2px -12px no-repeat;
+    height: 8px;
+}
