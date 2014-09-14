@@ -5,10 +5,10 @@
 		"name":"SWD WvW Timers",
 		"version":"1.0.0",
 		"minimum-overwolf-version":"0.77.10",
-		"author":"SWD",
+		"author":"rvgate, dajs",
 		"icon":"IconMouseOver.png",
 		"icon_gray":"IconMouseNormal.png",
-		"description":"Demo App"
+		"description":"SWD WvW Timers provides an in-game overlay displaying information about objectives being captured and/or claimed during a WvW match-up in Guild Wars 2. Including audiovisual notifications, border filtering and localization."
 	},
 	"data": {
 		"start_window":"Main",
